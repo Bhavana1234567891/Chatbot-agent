@@ -1,0 +1,1815 @@
+# Description of the only table the model may query: products.
+# One row is one colorway (one color of one style at one retailer).
+# This file is pasted into the system prompt. It is not a query.
+#
+# Brand and color lists below are complete. Match those spellings exactly.
+# product_name is not listed: 5489 names, and none equals a brand.
+# If the user's words are not in the brand list, they belong to product_name.
+# Look that name up with get_values. Do not invent it.
+
+table: products
+row_count: 8108
+
+grain: >
+  One row is one colorway: one color of one dress style at one retailer.
+  _id and product_id are unique on every row. They identify the colorway,
+  not the style.
+
+what_a_style_is: >
+  A style is brand plus product_name. The same style is several rows when
+  it comes in several colors. Do not treat product_id, _id, or sku as the
+  style id. sku is not unique: the same sku can appear on more than one color.
+
+how_to_choose_the_column: >
+  Decide the column before you write a filter.
+  A retailer name (American Eagle, Zara, Aritzia) is channel_id, from the
+  list below. The stored brand is often a different string: American Eagle's
+  brand is AE, Zara's brand is ZARA, Hollister's brand is HOLLISTER.
+  A value is a brand only when it appears in the brand list. Golden is the
+  one value that is both a brand and a color. Use brand when the question
+  names the Aritzia label Golden, and color when it names the color Golden.
+  No product_name is exactly equal to a brand. Words that are not in the
+  brand list and not in the color list are a product_name search.
+  rank_label has only the four strings listed on that column.
+
+scope: >
+  Every row is category_id 30, department_id 2, and locale_id 1.
+  This table is one dress category in one department. It does not contain
+  other categories, departments, or locales.
+
+rank_comparison: >
+  Compare selling strength with rank_percentile or rank_label.
+  Do not compare rank_absolute across retailers (across channel_id).
+  Each retailer keeps its own rank scale. YesStyle rank_absolute reaches
+  252247, while Vuori stays under 60, so rank 100 at one retailer is not
+  "better" or "worse" than rank 100 at another. A smaller rank_absolute
+  means a better rank only among rows that share the same channel_id.
+  rank_absolute is also not the row's position inside this table.
+  rank_percentile is 0 to 100 and is safe to compare across retailers.
+  Higher percentile is better.
+
+color_comparison: >
+  color and product_color are the same string on every row of this table.
+  Either column answers "what color is this row." There is no color-family
+  column. Names such as Muted Navy and Navy do not match as text.
+  When a question says black, navy, or pastel, group the listed color
+  values into a family. Do not expect a value named pastel.
+
+columns:
+  - name: _id
+    meaning: >
+      Unique id of this row. One value per colorway. Not a style id.
+      Not a brand, color, or product name.
+    values:
+      kind: unique_per_row
+      distinct: 8108
+      listed: false
+    do_not: Do not group by _id when the question is about a style.
+  - name: channel_id
+    meaning: >
+      Numeric id of the retailer website. There is no retailer-name column.
+      Use this id when the question names a retailer. The brands listed
+      under each id are the only brand strings stored for that retailer.
+    values:
+      - id: "18"
+        retailer: "Reformation"
+        rank_absolute_min: 13
+        rank_absolute_max: 6854
+        brands:
+          - "Reformation"
+      - id: "26"
+        retailer: "Abercrombie & Fitch"
+        rank_absolute_min: 734
+        rank_absolute_max: 2608
+        brands:
+          - "Abercrombie & Fitch"
+      - id: "29"
+        retailer: "Hollister"
+        rank_absolute_min: 37
+        rank_absolute_max: 1029
+        brands:
+          - "HOLLISTER"
+      - id: "30"
+        retailer: "American Eagle"
+        rank_absolute_min: 1
+        rank_absolute_max: 1166
+        brands:
+          - "AE"
+      - id: "49"
+        retailer: "SHEIN"
+        rank_absolute_min: 10
+        rank_absolute_max: 38811
+        brands:
+          - "abyoxi"
+          - "Acelitt"
+          - "Aflion"
+          - "AiiRZ"
+          - "AIJ"
+          - "Allurite"
+          - "Aloruh"
+          - "Amorya"
+          - "Amplova"
+          - "Andrea Bello"
+          - "Anewsta"
+          - "Aralina"
+          - "Athîral"
+          - "Attitoon"
+          - "Aveloria"
+          - "Avenya"
+          - "Awevudst"
+          - "Balvessa"
+          - "BamGleam"
+          - "BamGlimmer"
+          - "BizChic"
+          - "Breezaya"
+          - "Brillora"
+          - "Bris Aura"
+          - "Bumpella"
+          - "CAJUNI"
+          - "Celisse"
+          - "ChicMe"
+          - "Comfortcana"
+          - "Coolane"
+          - "COSMINA"
+          - "CovetEZ"
+          - "CurvySweet"
+          - "Cévolie"
+          - "Da Jade"
+          - "Dancing Leopard"
+          - "Dayanna Comas"
+          - "DAZY"
+          - "DONICY"
+          - "Easelle"
+          - "Easowa"
+          - "EastFlair2"
+          - "Editum"
+          - "EgrlEra"
+          - "Elamini"
+          - "Elegaris"
+          - "Elenzga"
+          - "EMERY ROSE"
+          - "Enchnt"
+          - "Eryvara"
+          - "Everyssa"
+          - "Faunlyn"
+          - "FavEase"
+          - "Feyla"
+          - "Fiercella"
+          - "Firerie"
+          - "Fleurora"
+          - "Flirla"
+          - "Flora Isola"
+          - "Florisole"
+          - "Franclia"
+          - "Freevana"
+          - "FRIFUL"
+          - "Glamine"
+          - "Glamine Charm"
+          - "Glimmora"
+          - "GLOURI FORTUNE"
+          - "GlowEve"
+          - "Gownix"
+          - "Hauture"
+          - "Heiryn"
+          - "Holdful"
+          - "Hotletica"
+          - "HUTENER"
+          - "INAWLY"
+          - "Jeanoix"
+          - "Jemour"
+          - "JINLICX"
+          - "jotten"
+          - "JTI"
+          - "KARISMINA"
+          - "KIZN"
+          - "KSTM"
+          - "KZKZWK"
+          - "L'Amorae"
+          - "Lalippa"
+          - "LanaWest"
+          - "Lavishia"
+          - "leahseptember"
+          - "Lilora"
+          - "Livesso"
+          - "LOTSLUV"
+          - "Louniche"
+          - "LovelyWholesale"
+          - "Lucivie"
+          - "Lumalex"
+          - "LUMIGAL"
+          - "Luneh"
+          - "Maija"
+          - "MainGRL"
+          - "Maria Perezxox"
+          - "Mariisbox"
+          - "Medorina"
+          - "Miaspire"
+          - "Mima John"
+          - "minisummer"
+          - "missguided"
+          - "Mistrie"
+          - "MIUSOL"
+          - "Modelyn"
+          - "MOTF"
+          - "MUSERA"
+          - "MUSEYN"
+          - "NegzBox"
+          - "Nevyona"
+          - "NostaNoir"
+          - "NOVVYNE"
+          - "Nuvra"
+          - "Nöista"
+          - "Omancia"
+          - "Ontre"
+          - "OPHERINE"
+          - "Opulessa"
+          - "Pariaura"
+          - "Poéselle"
+          - "PRETTYGARDEN"
+          - "Qadelle"
+          - "QUIZ"
+          - "QUNGIGU"
+          - "Radiana"
+          - "Rafferiza"
+          - "Resyla"
+          - "ROMWE"
+          - "Ronhire"
+          - "RosyDaze"
+          - "Rusticease"
+          - "Rusttydustty"
+          - "SaltGleam"
+          - "Savoree"
+          - "Selamara"
+          - "Selianne"
+          - "Serisse"
+          - "SHEIN"
+          - "Silhoulove"
+          - "Silquee"
+          - "Siren Gaze"
+          - "Sirith"
+          - "Skyraze"
+          - "Slaydiva"
+          - "Solavon"
+          - "Soleia"
+          - "SoleilVie"
+          - "SOLERSUN"
+          - "Solivie"
+          - "StreetHx"
+          - "Structelle"
+          - "SUMWON"
+          - "Sunnyshic"
+          - "Sweetra"
+          - "Swim Chiccia"
+          - "Swim SXY"
+          - "SYchuan"
+          - "Sylviya"
+          - "Travachic"
+          - "Trelyra"
+          - "Turnttoni"
+          - "Ure Wave"
+          - "Vaclyn"
+          - "valorelle"
+          - "Vassilux"
+          - "Veilorie"
+          - "Vesra"
+          - "Vexica"
+          - "Vintamour"
+          - "Vivamere"
+          - "Vivid Eden"
+          - "Vixey"
+          - "Wandoria"
+          - "Wildy"
+          - "Yohana Edit"
+          - "Zayélia"
+          - "ZEYLAH"
+          - "Zivah"
+          - "Zyxie"
+          - "Écloséra"
+      - id: "57"
+        retailer: "Zara"
+        rank_absolute_min: 26
+        rank_absolute_max: 8125
+        brands:
+          - "ZARA"
+      - id: "111"
+        retailer: "Banana Republic"
+        rank_absolute_min: 1
+        rank_absolute_max: 2067
+        brands:
+          - "BANANA REPUBLIC"
+      - id: "113"
+        retailer: "GAP"
+        rank_absolute_min: 11
+        rank_absolute_max: 1263
+        brands:
+          - "GAP"
+      - id: "151"
+        retailer: "Alo Yoga"
+        rank_absolute_min: 586
+        rank_absolute_max: 5601
+        brands:
+          - "Alo Yoga"
+      - id: "161"
+        retailer: "H&M"
+        rank_absolute_min: 13
+        rank_absolute_max: 6972
+        brands:
+          - "H&M"
+      - id: "187"
+        retailer: "Neiman Marcus"
+        rank_absolute_min: 1098
+        rank_absolute_max: 4439
+        brands:
+          - "Acler"
+          - "Aidan Mattox"
+          - "Alex Perry"
+          - "BALMAIN"
+          - "Mac Duggal"
+          - "Ralph Lauren Collection"
+          - "Rickie Freeman for Teri Jon"
+          - "SACHIN BABI"
+          - "SIMKHAI"
+          - "VALENTINO GARAVANI"
+      - id: "190"
+        retailer: "Puma"
+        rank_absolute_min: 47
+        rank_absolute_max: 47
+        brands:
+          - "PUMA"
+      - id: "265"
+        retailer: "Old Navy"
+        rank_absolute_min: 27
+        rank_absolute_max: 1153
+        brands:
+          - "OLD NAVY"
+      - id: "300"
+        retailer: "Theory"
+        rank_absolute_min: 98
+        rank_absolute_max: 239
+        brands:
+          - "Theory"
+      - id: "310"
+        retailer: "Vuori"
+        rank_absolute_min: 1
+        rank_absolute_max: 56
+        brands:
+          - "Vuori"
+      - id: "438"
+        retailer: "Aritzia"
+        rank_absolute_min: 15
+        rank_absolute_max: 2569
+        brands:
+          - "Aritzia"
+          - "Babaton"
+          - "Golden"
+          - "Little Moon"
+          - "Sunday Best"
+          - "Ten"
+          - "Wilfred"
+      - id: "547"
+        retailer: "YesStyle"
+        rank_absolute_min: 289
+        rank_absolute_max: 252247
+        brands:
+          - "Alizio"
+          - "Allinya"
+          - "ANORA"
+          - "Appelsin"
+          - "Asiris"
+          - "Bolgivy"
+          - "BrickBlack"
+          - "Chubby Girl"
+          - "Coris"
+          - "Dreamkura"
+          - "Everose"
+          - "Faiar"
+          - "Fioridi"
+          - "GOGO Girl"
+          - "INEN"
+          - "Jeonseon"
+          - "Lemongrass"
+          - "Leoom"
+          - "Lewwe"
+          - "Litoya"
+          - "Lucuna"
+          - "Magma"
+          - "Mikiko"
+          - "Moon City"
+          - "Morning Glory"
+          - "Nebbia"
+          - "Nekomata"
+          - "NENE"
+          - "Poly Lulu"
+          - "Princess Min"
+          - "RainGirl"
+          - "Rosamira"
+          - "Rosesand"
+          - "Rosy Street"
+          - "sansweet"
+          - "SeoulPop"
+          - "Shinsei"
+          - "Sisyphi"
+          - "Sosana"
+          - "Strawolf"
+          - "Striinkie"
+          - "Sugarcoat"
+          - "Sweet Amour"
+          - "Trendycas"
+          - "Ulark"
+          - "Yako"
+    note: >
+      Filter channel_id for the store. Filter brand only for one of the
+      brand strings listed under that store. Aritzia the store is 438 and
+      includes Wilfred, Babaton, Ten, and the others listed there.
+  - name: locale_id
+    meaning: >
+      Market of the ranking. Always 1 in this table.
+    values:
+      - "1"
+    do_not: Do not filter on it. It does not split the data.
+  - name: sku
+    meaning: >
+      Retailer stock code. Often a style-color code, but it is not unique.
+      Two colors of one dress can share a sku. Not a brand or a product name.
+    values:
+      kind: identifier
+      distinct: 8027
+      listed: false
+    do_not: Do not use sku as a row id or as a style id.
+  - name: color
+    meaning: >
+      Color name printed by the retailer for this colorway.
+      The list below is every non-blank color in the table.
+      A blank color is unknown, not a color called none.
+    blank_rows: 2476
+    values:
+      - "(Multi-Color)"
+      - "111"
+      - "15 Dark Blue - With Belt"
+      - "161-020-Lyq-W"
+      - "164-020-Lyq-W"
+      - "29026-Image Color"
+      - "314"
+      - "8837 - Brown (Red)"
+      - "[White]"
+      - "Ablaze Blue"
+      - "Admiral"
+      - "Admiral Navy"
+      - "Admiral Navy/ Pink"
+      - "Admiral Navy/ White"
+      - "Admiral/ Light Birch"
+      - "Admiral/White"
+      - "Agave Green"
+      - "Agave Green/Soft Peach"
+      - "Almond"
+      - "Ams Strp Bt Wt/Mlsk Pk"
+      - "Anthracite Grey"
+      - "Apricot"
+      - "Apricot Base With Pink Flowers"
+      - "Apricot Blossom Color"
+      - "Apricot Py581803"
+      - "Aqua Blue"
+      - "Army Green"
+      - "Army Green 2"
+      - "Ashen"
+      - "Astin Strp B Bl/Br Wh"
+      - "Athletic Heather Grey"
+      - "Azl Strp Br Wt/Vl Blu"
+      - "Baby Blue"
+      - "Baby Pink"
+      - "Ballet Pink"
+      - "Barberry Red"
+      - "Beige"
+      - "Beige Gray"
+      - "Beige-Pink"
+      - "Beige/Floral"
+      - "Beige/Leopard Print"
+      - "Birch/ Rch M Brwn"
+      - "Birch/Black"
+      - "Birch/Folio Brown"
+      - "Bl/Admrl"
+      - "Black"
+      - "Black & White Stripe"
+      - "Black (100% Linen)"
+      - "Black (In Stock)"
+      - "Black / Ecru"
+      - "Black / Silver"
+      - "Black / White"
+      - "Black 0311"
+      - "Black And Gold"
+      - "Black And White"
+      - "Black And White Striped Skirt {Lined}"
+      - "Black Ditsy Floral"
+      - "Black Dress Paired With Shorts"
+      - "Black Floral"
+      - "Black Gingham (100% Cotton)"
+      - "Black Jack"
+      - "Black Plaid"
+      - "Black Stripe"
+      - "Black U0026 Blue Stripe"
+      - "Black/Birch"
+      - "Black/Black"
+      - "Black/Black Gingham"
+      - "Black/Chromatic"
+      - "Black/Cream"
+      - "Black/Floral"
+      - "Black/Flowers"
+      - "Black/Gold"
+      - "Black/Ivory"
+      - "Black/Light Birch"
+      - "Black/Patterned"
+      - "Black/Pink"
+      - "Black/Plaid"
+      - "Black/Polka Dot"
+      - "Black/Red"
+      - "Black/Silver"
+      - "Black/White"
+      - "Black/White Melange"
+      - "Black/Yellow"
+      - "Black/Zebra Print"
+      - "Blk/Blu Mirage"
+      - "Blue"
+      - "Blue + Red Plaid"
+      - "Blue / Gray"
+      - "Blue / White"
+      - "Blue And White"
+      - "Blue Check"
+      - "Blue Floral"
+      - "Blue Flower"
+      - "Blue Geo"
+      - "Blue Gray"
+      - "Blue Gray Floral"
+      - "Blue Haze"
+      - "Blue Mirage"
+      - "Blue Mirage / Yellow"
+      - "Blue Mirge/Dk Nght Nvy"
+      - "Blue Path"
+      - "Blue Pattern"
+      - "Blue Powder"
+      - "Blue Power"
+      - "Blue Print"
+      - "Blue-Gray"
+      - "Bluish"
+      - "Bold Black"
+      - "Bold Plum"
+      - "Bone"
+      - "Borange"
+      - "Bordeaux"
+      - "Bosana Green"
+      - "Bow Pink"
+      - "Brd Stp Ntl Ecr/Wht"
+      - "Brght Whit/Folio Bwrn"
+      - "Brick"
+      - "Brick Red"
+      - "Bright Blue"
+      - "Bright Orange"
+      - "Bright Purple"
+      - "Bright Red"
+      - "Bright White"
+      - "Bright White/Admiral"
+      - "Bright Yellow"
+      - "Bronze-Colored"
+      - "Brown"
+      - "Brown / Taupe"
+      - "Brown Daisy"
+      - "Brown Dot"
+      - "Brown Floral"
+      - "Brown Mauve"
+      - "Brown Mauve Stripe"
+      - "Brown Ochre"
+      - "Brown Plaid"
+      - "Brown-Blue"
+      - "Brown/Leopard Print"
+      - "Brown/Taupe"
+      - "Brownstone Linen"
+      - "Bt White/ Black"
+      - "Buffalo Bills"
+      - "Buoy"
+      - "Burgundy"
+      - "Burgundy Stripe"
+      - "Burgundy/Polka Dot"
+      - "Burnt Cinnamon Brown"
+      - "Burnt Orange"
+      - "Butterfly - Green"
+      - "Byron Blue"
+      - "Cabot Strp Oak/Grey"
+      - "Cac Nib Brown/Nd Taupe"
+      - "Cacao"
+      - "Cacao Melange"
+      - "Cacao Nib Brown"
+      - "Cacao Nib Brwn/Black"
+      - "Cacao Nib Brwn/Grey"
+      - "Cadet Blue"
+      - "California Blue"
+      - "California Blue/White"
+      - "Calluna Lilac"
+      - "Camel"
+      - "Camel/White"
+      - "Camper Green"
+      - "Campground Green"
+      - "Candy Drop"
+      - "Canopy Brown"
+      - "Caramel"
+      - "Caramel Color"
+      - "Cardamon"
+      - "Cardamon/Black"
+      - "Cbt Strp Undyd Ecr/Wt"
+      - "Cc N Brown/Cc Nb Brown"
+      - "Celedon"
+      - "Celestial Blue"
+      - "Cello Brown /Black"
+      - "Cerulean Blue"
+      - "Champagne"
+      - "Champagne-Colored Bulk Orders Have Been Shipped."
+      - "Charcoal"
+      - "Charcoal Floral"
+      - "Charcoal Gray"
+      - "Charcoal Melange"
+      - "Charcoal Multi"
+      - "Chcltr Bwn/Pnk"
+      - "Cherry Red"
+      - "Cherrybomb Red"
+      - "Chicago Bears"
+      - "Chocolate"
+      - "Chocolate Brown"
+      - "Chocolate Plum"
+      - "Chrome/Blue Gradient"
+      - "Cinnamon Bark Brown"
+      - "Cirrus Blue Stripe"
+      - "Claremont"
+      - "Clr Ggm Rpl Bl/Admrl"
+      - "Coal Grey"
+      - "Cobblestone Beige"
+      - "Coco De Mer"
+      - "Coffee"
+      - "Coffee Brown"
+      - "Cognac"
+      - "Cola Taupe"
+      - "Cola Tp/ Brt Wht"
+      - "Colorful Blue"
+      - "Colorful Floral Skull"
+      - "Cool Blush"
+      - "Cool Brown"
+      - "Cool Iced Mint"
+      - "Coral Pink"
+      - "Cordovan"
+      - "Cotton Can"
+      - "Cream"
+      - "Cream Check"
+      - "Cream Floral"
+      - "Cream Multi"
+      - "Cream Stripe"
+      - "Cream Tapestry (100% Cotton)"
+      - "Cream White"
+      - "Cream White Stripe"
+      - "Cream/Black Plaid"
+      - "Cream/Black Striped"
+      - "Cream/Brown Plaid"
+      - "Cream/Floral"
+      - "Cream/Polka Dot"
+      - "Cream/Striped"
+      - "Creamy Yellow"
+      - "Creamy Yellow Stripe"
+      - "Crmn Stp Mt Prl/Lt Bc"
+      - "Crmn Strp Dew Bl/Wht"
+      - "Crmn Strp Wt/Vntg Nvy"
+      - "Crstie Strp Dew Bl/Wht"
+      - "Crush Magenta"
+      - "Curcumin"
+      - "Cyan - Large Stock Available"
+      - "Dallas Cowboys"
+      - "Dark"
+      - "Dark Beige"
+      - "Dark Blue"
+      - "Dark Blue Herringbone"
+      - "Dark Blue Plaid"
+      - "Dark Blue/Patterned"
+      - "Dark Blue/Striped"
+      - "Dark Brown"
+      - "Dark Brown/Checked"
+      - "Dark Brown/Leopard Print"
+      - "Dark Brown/Patterned"
+      - "Dark Brown/Zebra Print"
+      - "Dark Burgundy"
+      - "Dark Charcoal Gray"
+      - "Dark Chocolate"
+      - "Dark Chocolate Brown"
+      - "Dark Coffee"
+      - "Dark Denim"
+      - "Dark Denim Blue"
+      - "Dark Denim Gray"
+      - "Dark Dusty Blue/Floral"
+      - "Dark Dusty Pink"
+      - "Dark Dusty Turquoise"
+      - "Dark Gray"
+      - "Dark Gray Melange"
+      - "Dark Gray/Cream"
+      - "Dark Gray/Patterned"
+      - "Dark Green"
+      - "Dark Grey"
+      - "Dark Grey/Black"
+      - "Dark Heather Gray"
+      - "Dark Heather Grey"
+      - "Dark Indigo"
+      - "Dark Khaki"
+      - "Dark Khaki Green"
+      - "Dark Maroon"
+      - "Dark Mole Marl"
+      - "Dark Navy"
+      - "Dark Night Navy"
+      - "Dark Olive"
+      - "Dark Pink"
+      - "Dark Plum Purple"
+      - "Dark Plum Red"
+      - "Dark Plum Red/Patterned"
+      - "Dark Purple"
+      - "Dark Red"
+      - "Dark Roast"
+      - "Dark Ruby Red"
+      - "Dark Spruce"
+      - "Dark Taupe"
+      - "Dark Taupe Melange"
+      - "Dark Truffle Gray"
+      - "Dark Turquoise"
+      - "Dark Wash"
+      - "Dark Wash Indigo"
+      - "Dark Yellow"
+      - "Dayflower Blue"
+      - "Deauville Mauve"
+      - "Deep Mulberry"
+      - "Deep Ocean"
+      - "Deep Red (100% Cotton)"
+      - "Deep Sea Blue"
+      - "Denim Blue"
+      - "Denim Blue/Floral"
+      - "Detroit Lions"
+      - "Dew Bl/ Bt Wht"
+      - "Dew Blue"
+      - "Dk Grey/ Sside Cream"
+      - "Dreamhouse Pink"
+      - "Dsty Mauve/Dst Mauve"
+      - "Dune Grass"
+      - "Dune Grass Heather"
+      - "Dune Grass/Chrome"
+      - "Dune Grass/White"
+      - "Dusty Beige/White"
+      - "Dusty Blue"
+      - "Dusty Green"
+      - "Dusty Mauve"
+      - "Dusty Pink"
+      - "Dusty Pink/Floral"
+      - "Dusty Purple"
+      - "Earthen"
+      - "Earthy Yellow"
+      - "Ecru"
+      - "Ecru / Beige"
+      - "Ecru / Black"
+      - "Ecru / Navy"
+      - "Ecru / Red"
+      - "Ecru/Yellow"
+      - "Eggplant"
+      - "Electric Blue"
+      - "Emberglow"
+      - "Emerald"
+      - "Emerald Green"
+      - "Espresso"
+      - "Espresso/White"
+      - "Field Lavender"
+      - "Fiery Red"
+      - "Flint Green"
+      - "Floral Chrysanthemum"
+      - "Floral Fern Green"
+      - "Floral Red"
+      - "Flower"
+      - "Fluent Tp/ Lt Birch"
+      - "Fluorescent Yellow"
+      - "Folio Brown/Black"
+      - "Folio Taupe"
+      - "French Taupe"
+      - "Fresh White"
+      - "Frozen Berry"
+      - "Fuchsia"
+      - "Fuchsia Pink"
+      - "Gala Plum"
+      - "Ganache Brown"
+      - "Gd Black"
+      - "Geode Purple"
+      - "Ginger"
+      - "Glacial Peonies"
+      - "Glimmer"
+      - "Goddess Sage"
+      - "Gold"
+      - "Gold Floral Stems"
+      - "Gold/Pink Gradient"
+      - "Golden"
+      - "Golden Khaki"
+      - "Grand Canyon"
+      - "Grass Green"
+      - "Gravel"
+      - "Gravel Heather"
+      - "Gravel/Silver"
+      - "Gravel/White"
+      - "Gray"
+      - "Gray / Blue"
+      - "Gray / Tan"
+      - "Gray Blue"
+      - "Gray Green"
+      - "Gray Heather"
+      - "Gray Marl"
+      - "Gray Melange"
+      - "Grayish"
+      - "Green"
+      - "Green / Blue"
+      - "Green Background With White Flowers"
+      - "Green Bay Packers"
+      - "Green Floral"
+      - "Green Floral Gid"
+      - "Green Plaid"
+      - "Green Stripe"
+      - "Grey"
+      - "Gt Ck Lt Bc/Rc Mc Br"
+      - "Har Check Mc B/R M Br"
+      - "Harbour Navy"
+      - "Hazel"
+      - "Hearthwood"
+      - "Heather Chocolate Brown"
+      - "Heather Chrome"
+      - "Heather Dark Grey"
+      - "Heather Fawn"
+      - "Heather Frost"
+      - "Heather Grey Taupe"
+      - "Heather Light Oatmeal"
+      - "Heather Matte Pearl"
+      - "Heather Nomad Taupe"
+      - "Hndrsn Strp Br Wh/Adl"
+      - "Hndsn Strp Wt/Admiral"
+      - "Hot Cheeky Orange"
+      - "Hot Pink"
+      - "Hthr Chrcl/Nmd Tup"
+      - "Htr Dark Grey/Black"
+      - "Humus Beige"
+      - "Image Color"
+      - "Image Color (Belt Not Included)"
+      - "Image Color (Excluding Belt)"
+      - "Ina Stp Vla Pk/Mrc Bg"
+      - "Indigo"
+      - "Indigo Blue"
+      - "Indigo Ink"
+      - "Ingrd Strp Admrl/Wht"
+      - "Ingrd Strp Dw Bl/Wht"
+      - "Ingrd Strp Flo Brn/Ok"
+      - "Ingrd Strp Fr Bl/B Wh"
+      - "Ingrd Strp Sngld Rd/Wt"
+      - "Ingrd Strp Vl Pk/B Wh"
+      - "Ink"
+      - "Iris"
+      - "Ivory"
+      - "Ivory Multi"
+      - "Ivory White"
+      - "Ivy"
+      - "Jake Chk Blk/ Chrome"
+      - "Java Brown"
+      - "Java Brown Heather"
+      - "Jazz Blue"
+      - "Jellybean Pink"
+      - "Juicy Rose"
+      - "Kansas City Chiefs"
+      - "Khaki"
+      - "Khaki Beige"
+      - "Khaki Green"
+      - "Kiln Pink"
+      - "Klein Blue"
+      - "Kln Pnk/Mtrpls Taupe"
+      - "Kombu"
+      - "Kyle Check Svl/Msc Brn"
+      - "Lake Blue"
+      - "Lake Town Blue"
+      - "Large White Flowers"
+      - "Laurel Olive"
+      - "Lavender"
+      - "Leaf Green"
+      - "Lemon"
+      - "Lemonade"
+      - "Lemonade/Blue"
+      - "Lemonade/Light Birch"
+      - "Leopard"
+      - "Leopard / Taupe Brown"
+      - "Leopard Print"
+      - "Lght Brch/Adml Nvy"
+      - "Light Apricot"
+      - "Light Beige"
+      - "Light Beige/Black"
+      - "Light Beige/Cream"
+      - "Light Beige/Floral"
+      - "Light Beige/Patterned"
+      - "Light Beige/Polka Dot"
+      - "Light Birch"
+      - "Light Birch/Black"
+      - "Light Birch/Gold"
+      - "Light Birch/Multi"
+      - "Light Birch/Plein Air"
+      - "Light Birch/Tonal"
+      - "Light Blue"
+      - "Light Blue And Pinkish Yellow"
+      - "Light Blue Check"
+      - "Light Blue Dot"
+      - "Light Blue Floral"
+      - "Light Blue Stripe"
+      - "Light Blue With Small White Dots"
+      - "Light Blue/Black"
+      - "Light Blue/Floral"
+      - "Light Blue/Pinstriped"
+      - "Light Brown"
+      - "Light Brown Check"
+      - "Light Camel"
+      - "Light Denim Blue"
+      - "Light Dusty Beige"
+      - "Light Dusty Pink"
+      - "Light Dusty Purple"
+      - "Light Dusty Yellow/Floral"
+      - "Light Gray"
+      - "Light Gray & Navy Blue"
+      - "Light Gray Heather"
+      - "Light Green"
+      - "Light Green Pattern"
+      - "Light Green Stripe"
+      - "Light Grey"
+      - "Light Khaki"
+      - "Light Khaki Green"
+      - "Light Lilac"
+      - "Light Mint Green"
+      - "Light Mint/Soft Brown"
+      - "Light Peach Pink"
+      - "Light Pink"
+      - "Light Pink Dd"
+      - "Light Pink Pattern"
+      - "Light Pink Plaid"
+      - "Light Pink Stripe"
+      - "Light Pink/Pale Yelow"
+      - "Light Purple"
+      - "Light Purple & Dark Purple"
+      - "Light Turquoise"
+      - "Light Wash"
+      - "Light Yellow"
+      - "Lilac"
+      - "Lilac Stripe"
+      - "Lime Green"
+      - "Limelight"
+      - "Limelight Green"
+      - "Long Edition - Black"
+      - "Long Floral Pattern"
+      - "Lt Birch/ Admiral"
+      - "Lyq13-Flt1"
+      - "Lyq13-Flt5"
+      - "Magnolia"
+      - "Magnolia Flower Ivory"
+      - "Magnolia Flower Ivory (100% Cotton)"
+      - "Maraschino Red"
+      - "Marcona Beige"
+      - "Mariner Terracotta"
+      - "Maroon"
+      - "Martini Olive"
+      - "Matcha Color"
+      - "Matte Black"
+      - "Matte Pearl"
+      - "Mauve"
+      - "Mauve Purple"
+      - "Mdday Blue/Lght Brch"
+      - "Medium Blue"
+      - "Medium Brown"
+      - "Medium Wash"
+      - "Medium Wash Denim"
+      - "Melange Gray"
+      - "Mesa Orange"
+      - "Metropolis Beige"
+      - "Mid-Blue"
+      - "Mid-Camel"
+      - "Mid-Ecru"
+      - "Mid-Gray"
+      - "Mid-Green"
+      - "Mid-Red"
+      - "Midday Blue"
+      - "Midday Blue / Silver"
+      - "Midi Dress - Off-White"
+      - "Midi Dress - Orange Pink"
+      - "Midnight Blue"
+      - "Midnight Lily Purple"
+      - "Midy Blue/Gold"
+      - "Milkshake Pink"
+      - "Milky White"
+      - "Mini Dress - Off-White"
+      - "Mini Dress - Orange Pink"
+      - "Mint"
+      - "Mint Blue"
+      - "Mint Green"
+      - "Mist Green"
+      - "Mitchell St Cnfwr B/W"
+      - "Mix"
+      - "Mixed Colors"
+      - "Mocha Brown"
+      - "Mocha Sorbet"
+      - "Modern Taupe"
+      - "Mohogany"
+      - "Monument"
+      - "Monument Grey"
+      - "Monument Wash"
+      - "Moon Dust Grey"
+      - "Moonless Black Night"
+      - "Moss Yellow"
+      - "Mountain Tan"
+      - "Mtchl Strp Jb Pk/B Wh"
+      - "Mtchl Strp Vla Bl/ Ok"
+      - "Mtchll Strp Cf B/B Wh"
+      - "Mtchll Strp Dw Bl/H Nv"
+      - "Mtchll Strp St P Pl/Wt"
+      - "Mtrpls Taup /Rch M Bn"
+      - "Mtrpls Tp/ Sprkng Chmp"
+      - "Multi"
+      - "Multi Floral"
+      - "Multicolor"
+      - "Multicolored"
+      - "Mustard"
+      - "Mustard Yellow"
+      - "Muted Navy"
+      - "Mv Strp Li Blm/Glmr"
+      - "Mysterious Fern"
+      - "Natural Beige"
+      - "Natural Ecru"
+      - "Navy"
+      - "Navy / White"
+      - "Navy Blue"
+      - "Navy Blue (Belt Not Included)"
+      - "Navy Blue (Excluding Belt)"
+      - "Navy Blue Plaid"
+      - "Navy Blue Stripe"
+      - "Navy Blue/Floral"
+      - "Navy Check"
+      - "Navy Dot"
+      - "Navy Plaid"
+      - "Navy Stripe"
+      - "Navy/Ivory"
+      - "Navy/White"
+      - "Neon Blue"
+      - "Neon Orange"
+      - "Neon Pink"
+      - "New York Giants"
+      - "New York Jets"
+      - "Night Time Navy"
+      - "Nightshade"
+      - "Noble"
+      - "Nocturne Navy"
+      - "Noir"
+      - "Nomad Taupe"
+      - "Nomad Taupe/Black"
+      - "Nomad Taupe/Cola Tpe"
+      - "Oak"
+      - "Off White"
+      - "Off-White"
+      - "Olive Green"
+      - "Olive Herringbone"
+      - "Olive Moss"
+      - "Olivegreen"
+      - "Only One"
+      - "Opera Rose"
+      - "Orange"
+      - "Orange Background Purple Color"
+      - "Orange Block Print"
+      - "Orange Floral"
+      - "Orange Red"
+      - "Orange-Red"
+      - "Orchid Petal"
+      - "Oyster-White"
+      - "Pale Agv Gr /Pale Ylw"
+      - "Pale Pink"
+      - "Pale Pink/Floral"
+      - "Pale Yellow"
+      - "Panorama Blue"
+      - "Passion Red"
+      - "Pastel Blue"
+      - "Pastel Green"
+      - "Pastel Pink"
+      - "Pastel Stripe"
+      - "Pastel Yellow"
+      - "Pattern"
+      - "Peacock Blue"
+      - "Peacock Flower (Brown)"
+      - "Pearl Marl"
+      - "Periwinkle"
+      - "Petrol Blue"
+      - "Petunia Pink"
+      - "Philadelphia Eagles"
+      - "Pine Green"
+      - "Pink"
+      - "Pink / White"
+      - "Pink And Brown Plaid"
+      - "Pink Cactus Flower"
+      - "Pink Floral"
+      - "Pink Floral Print"
+      - "Pink Gingham"
+      - "Pink Marshmallow"
+      - "Pink Marshmallow Heather"
+      - "Pink Marshmallow Shell"
+      - "Pink Marshmallow/White"
+      - "Pink Moonlight"
+      - "Pink Plaid"
+      - "Pink2"
+      - "Pittsburgh Steelers"
+      - "Plaid"
+      - "Plein Air"
+      - "Plum Purple"
+      - "Plum Red"
+      - "Poppy"
+      - "Poppy Red"
+      - "Postcard Blue"
+      - "Powder Pink"
+      - "Printed"
+      - "Printing"
+      - "Puma Black"
+      - "Purple"
+      - "Purple Bloom"
+      - "Purple Bordeaux"
+      - "Purple Burgundy"
+      - "Purple Burgundy Stripe"
+      - "Purple Floral"
+      - "Purple Flower On White Background"
+      - "Purple Stripe"
+      - "Purple-Gold"
+      - "Purple-Yellow"
+      - "Purple/Black Floral"
+      - "Purplish-Red"
+      - "Radicchio Burgundy"
+      - "Radicchio Burgundy-Brown"
+      - "Raindrop"
+      - "Raspberry Peak"
+      - "Raspberry Red/Patterned"
+      - "Rch Mch Brn/Lt Brch"
+      - "Red"
+      - "Red (In Stock)"
+      - "Red And Black"
+      - "Red And White"
+      - "Red Cherry Glaze"
+      - "Red Chili"
+      - "Red Floral"
+      - "Red Lacquer"
+      - "Red Plaid"
+      - "Red Stripe"
+      - "Red Violet"
+      - "Red/Striped"
+      - "Reddish-Brown"
+      - "Reddish-Brown (25333)"
+      - "Redwood"
+      - "Redwood Burl"
+      - "Relic"
+      - "Retro Blue"
+      - "Rice"
+      - "Rich Chestnut"
+      - "Rich Ginger Brown"
+      - "Rich Mocha Brn/ Tonal"
+      - "Rich Mocha Brown"
+      - "Rich Mocha Brown/Black"
+      - "Rinse Dark Wash"
+      - "Ripple Blue"
+      - "Riverstone Grey"
+      - "Rommey Chck Vl Bl/Adm"
+      - "Rose"
+      - "Rose Gold"
+      - "Rose Pink"
+      - "Rose Red"
+      - "Rouge"
+      - "Royal Blue"
+      - "Russet Brown (100% Linen)"
+      - "Rust Brown"
+      - "Rust Red"
+      - "Sage"
+      - "Sagesse"
+      - "San Francisco 49Ers"
+      - "Sand"
+      - "Sand / Black"
+      - "Sapphire Navy"
+      - "Sargassus Blue"
+      - "Satsuma Breeze"
+      - "Satsuma Breeze/White"
+      - "Saville/Multi"
+      - "Scarab"
+      - "Sdr Olive /Lt Birch"
+      - "Sea Blue"
+      - "Sea Green"
+      - "Seaside Cream"
+      - "Seattle Seahawks"
+      - "Shady Blue"
+      - "Shady Lane"
+      - "Sherry Ochre"
+      - "Short Edition - White"
+      - "Shr Ochre/Shry Ochre"
+      - "Silver"
+      - "Silver Gray"
+      - "Silver Sage Green"
+      - "Silver-Colored/Cream"
+      - "Sky Blue"
+      - "Skyline Bl /Brt White"
+      - "Small Black Plaid"
+      - "Smoked Eggplant"
+      - "Smoky Sage"
+      - "Sn Stp Mlsk/Brt Wt"
+      - "Snake"
+      - "Soft Apricot Peach"
+      - "Soft Chip Mint"
+      - "Soft Gold"
+      - "Soft Iris"
+      - "Soft Light Brch/Multi"
+      - "Soft Pstchio Grn"
+      - "Soft Seashell Pk"
+      - "Sonoma Wine Red"
+      - "Spckl Tweed Blk/White"
+      - "Splash Blue"
+      - "Srn Ck Mtps Tp/Mnr Tct"
+      - "Srphn Chck Wt/Frnch Bl"
+      - "Srpn Ck Lt Br/Swt P Pl"
+      - "Srpn Ck Lt Brh/Hbr Nvy"
+      - "Ssd Crm/Pnk"
+      - "Stonewashed Beige"
+      - "Strawberry Cold Foam"
+      - "Stripe"
+      - "Striped"
+      - "Stripes - Gray & White"
+      - "Stripes - Pink & White"
+      - "Style"
+      - "Sugarplum Lilac"
+      - "Sumac Burgundy"
+      - "Sundried Olive"
+      - "Sunfaded Coral"
+      - "Sunglow Yellow"
+      - "Sunny Yellow"
+      - "Susan Strpe Hrbr Nv/W"
+      - "Sweet Pea Purple"
+      - "Sycamore"
+      - "Tahiti Green"
+      - "Tan Gingam"
+      - "Tan Stripe"
+      - "Tandoori Red"
+      - "Tangerine"
+      - "Tart Pink"
+      - "Tassel Sequined Slip Dress - Green"
+      - "Taupe"
+      - "Taupe Brown"
+      - "Taupe Gray"
+      - "Teal"
+      - "Teal Blue"
+      - "Terra Brown"
+      - "Terrace Sage"
+      - "Thyme"
+      - "Toffee"
+      - "Tortoise"
+      - "Tortoise/Blue"
+      - "True Black"
+      - "Turner Taupe"
+      - "Turquoise"
+      - "Tweed Green"
+      - "Tyson Chk Brown/Taupe"
+      - "Ultramarine Blue"
+      - "Umber"
+      - "Undyed Ecru"
+      - "Vanilla"
+      - "Veil My Night"
+      - "Veil Of Night"
+      - "Villa Blue"
+      - "Villa Blue/Admiral"
+      - "Villa Blue/Light Birch"
+      - "Villa Pink"
+      - "Villa Pink/Tonal"
+      - "Vintage Athletic Heather"
+      - "Vintage Blue Wash"
+      - "Vintage Li"
+      - "Vintage Navy"
+      - "Vintage Navy Blue"
+      - "Vintage Navy/ Black"
+      - "Violet"
+      - "Vlablu/Brgtwht"
+      - "Wander Blue"
+      - "Warm Butter"
+      - "Warm Taupe"
+      - "Washed Black"
+      - "Washed Indigo"
+      - "Waterfall Splash"
+      - "Watermelon Pink"
+      - "Whisper White"
+      - "White"
+      - "White (26100)"
+      - "White Dress"
+      - "White Floral"
+      - "White Leopard Print"
+      - "White Long Dress"
+      - "White Pattern"
+      - "White Pepper"
+      - "White/ Admiral"
+      - "White/ Fr Blue"
+      - "White/ Villa Blue"
+      - "White/Black"
+      - "White/Blue"
+      - "White/California Blue"
+      - "White/Harbour Navy"
+      - "White/Pink Marshmallow"
+      - "White/Silver"
+      - "White/Yellow"
+      - "Wildflower Lilac"
+      - "Wind Melange"
+      - "Wine Red"
+      - "Wine Tasting"
+      - "Wln Stp Wht/Crnflr Bl"
+      - "Wnstn Strpe D Bl/B Wh"
+      - "Yellow"
+      - "Yellow (In Stock)"
+      - "Yellow + Apricot + Black"
+      - "Yellow Background With Floral Pattern"
+      - "Yellow Enlarged"
+      - "Yellow Floral"
+      - "Yellow Green"
+      - "Yellow Melon"
+      - "Yellow Melon (100% Linen)"
+      - "Yellow Stripe"
+      - "Zebra"
+    do_not: Do not treat a partial text match as a color family.
+  - name: product_color
+    meaning: >
+      Second color field. On every row it is identical to color,
+      including when color is blank. It has no values of its own.
+    values_same_as: color
+    use_for: Same questions as color. Prefer color and do not join the two.
+  - name: category_id
+    meaning: >
+      Product category. Always 30 in this table (this dress extract).
+    values:
+      - "30"
+    do_not: Do not filter on it.
+  - name: department_id
+    meaning: >
+      Department inside the category. Always 2 in this table.
+    values:
+      - "2"
+    do_not: Do not filter on it.
+  - name: product_id
+    meaning: >
+      Unique id of this colorway row. A new color of the same dress gets
+      a new product_id. It is not shared by the colors of one style.
+    values:
+      kind: unique_per_row
+      distinct: 8108
+      listed: false
+    do_not: Do not group by product_id to mean "one style."
+  - name: brand
+    meaning: >
+      Brand printed on the product. The list below is every stored brand.
+      Case and spelling must match. This is not the retailer list.
+      American Eagle the retailer is channel_id 30; its brand is AE.
+    values:
+      - "Abercrombie & Fitch"
+      - "abyoxi"
+      - "Acelitt"
+      - "Acler"
+      - "AE"
+      - "Aflion"
+      - "Aidan Mattox"
+      - "AiiRZ"
+      - "AIJ"
+      - "Alex Perry"
+      - "Alizio"
+      - "Allinya"
+      - "Allurite"
+      - "Alo Yoga"
+      - "Aloruh"
+      - "Amorya"
+      - "Amplova"
+      - "Andrea Bello"
+      - "Anewsta"
+      - "ANORA"
+      - "Appelsin"
+      - "Aralina"
+      - "Aritzia"
+      - "Asiris"
+      - "Athîral"
+      - "Attitoon"
+      - "Aveloria"
+      - "Avenya"
+      - "Awevudst"
+      - "Babaton"
+      - "BALMAIN"
+      - "Balvessa"
+      - "BamGleam"
+      - "BamGlimmer"
+      - "BANANA REPUBLIC"
+      - "BizChic"
+      - "Bolgivy"
+      - "Breezaya"
+      - "BrickBlack"
+      - "Brillora"
+      - "Bris Aura"
+      - "Bumpella"
+      - "CAJUNI"
+      - "Celisse"
+      - "ChicMe"
+      - "Chubby Girl"
+      - "Comfortcana"
+      - "Coolane"
+      - "Coris"
+      - "COSMINA"
+      - "CovetEZ"
+      - "CurvySweet"
+      - "Cévolie"
+      - "Da Jade"
+      - "Dancing Leopard"
+      - "Dayanna Comas"
+      - "DAZY"
+      - "DONICY"
+      - "Dreamkura"
+      - "Easelle"
+      - "Easowa"
+      - "EastFlair2"
+      - "Editum"
+      - "EgrlEra"
+      - "Elamini"
+      - "Elegaris"
+      - "Elenzga"
+      - "EMERY ROSE"
+      - "Enchnt"
+      - "Eryvara"
+      - "Everose"
+      - "Everyssa"
+      - "Faiar"
+      - "Faunlyn"
+      - "FavEase"
+      - "Feyla"
+      - "Fiercella"
+      - "Fioridi"
+      - "Firerie"
+      - "Fleurora"
+      - "Flirla"
+      - "Flora Isola"
+      - "Florisole"
+      - "Franclia"
+      - "Freevana"
+      - "FRIFUL"
+      - "GAP"
+      - "Glamine"
+      - "Glamine Charm"
+      - "Glimmora"
+      - "GLOURI FORTUNE"
+      - "GlowEve"
+      - "GOGO Girl"
+      - "Golden"
+      - "Gownix"
+      - "H&M"
+      - "Hauture"
+      - "Heiryn"
+      - "Holdful"
+      - "HOLLISTER"
+      - "Hotletica"
+      - "HUTENER"
+      - "INAWLY"
+      - "INEN"
+      - "Jeanoix"
+      - "Jemour"
+      - "Jeonseon"
+      - "JINLICX"
+      - "jotten"
+      - "JTI"
+      - "KARISMINA"
+      - "KIZN"
+      - "KSTM"
+      - "KZKZWK"
+      - "L'Amorae"
+      - "Lalippa"
+      - "LanaWest"
+      - "Lavishia"
+      - "leahseptember"
+      - "Lemongrass"
+      - "Leoom"
+      - "Lewwe"
+      - "Lilora"
+      - "Litoya"
+      - "Little Moon"
+      - "Livesso"
+      - "LOTSLUV"
+      - "Louniche"
+      - "LovelyWholesale"
+      - "Lucivie"
+      - "Lucuna"
+      - "Lumalex"
+      - "LUMIGAL"
+      - "Luneh"
+      - "Mac Duggal"
+      - "Magma"
+      - "Maija"
+      - "MainGRL"
+      - "Maria Perezxox"
+      - "Mariisbox"
+      - "Medorina"
+      - "Miaspire"
+      - "Mikiko"
+      - "Mima John"
+      - "minisummer"
+      - "missguided"
+      - "Mistrie"
+      - "MIUSOL"
+      - "Modelyn"
+      - "Moon City"
+      - "Morning Glory"
+      - "MOTF"
+      - "MUSERA"
+      - "MUSEYN"
+      - "Nebbia"
+      - "NegzBox"
+      - "Nekomata"
+      - "NENE"
+      - "Nevyona"
+      - "NostaNoir"
+      - "NOVVYNE"
+      - "Nuvra"
+      - "Nöista"
+      - "OLD NAVY"
+      - "Omancia"
+      - "Ontre"
+      - "OPHERINE"
+      - "Opulessa"
+      - "Pariaura"
+      - "Poly Lulu"
+      - "Poéselle"
+      - "PRETTYGARDEN"
+      - "Princess Min"
+      - "PUMA"
+      - "Qadelle"
+      - "QUIZ"
+      - "QUNGIGU"
+      - "Radiana"
+      - "Rafferiza"
+      - "RainGirl"
+      - "Ralph Lauren Collection"
+      - "Reformation"
+      - "Resyla"
+      - "Rickie Freeman for Teri Jon"
+      - "ROMWE"
+      - "Ronhire"
+      - "Rosamira"
+      - "Rosesand"
+      - "Rosy Street"
+      - "RosyDaze"
+      - "Rusticease"
+      - "Rusttydustty"
+      - "SACHIN BABI"
+      - "SaltGleam"
+      - "sansweet"
+      - "Savoree"
+      - "Selamara"
+      - "Selianne"
+      - "SeoulPop"
+      - "Serisse"
+      - "SHEIN"
+      - "Shinsei"
+      - "Silhoulove"
+      - "Silquee"
+      - "SIMKHAI"
+      - "Siren Gaze"
+      - "Sirith"
+      - "Sisyphi"
+      - "Skyraze"
+      - "Slaydiva"
+      - "Solavon"
+      - "Soleia"
+      - "SoleilVie"
+      - "SOLERSUN"
+      - "Solivie"
+      - "Sosana"
+      - "Strawolf"
+      - "StreetHx"
+      - "Striinkie"
+      - "Structelle"
+      - "Sugarcoat"
+      - "SUMWON"
+      - "Sunday Best"
+      - "Sunnyshic"
+      - "Sweet Amour"
+      - "Sweetra"
+      - "Swim Chiccia"
+      - "Swim SXY"
+      - "SYchuan"
+      - "Sylviya"
+      - "Ten"
+      - "Theory"
+      - "Travachic"
+      - "Trelyra"
+      - "Trendycas"
+      - "Turnttoni"
+      - "Ulark"
+      - "Ure Wave"
+      - "Vaclyn"
+      - "VALENTINO GARAVANI"
+      - "valorelle"
+      - "Vassilux"
+      - "Veilorie"
+      - "Vesra"
+      - "Vexica"
+      - "Vintamour"
+      - "Vivamere"
+      - "Vivid Eden"
+      - "Vixey"
+      - "Vuori"
+      - "Wandoria"
+      - "Wildy"
+      - "Wilfred"
+      - "Yako"
+      - "Yohana Edit"
+      - "ZARA"
+      - "Zayélia"
+      - "ZEYLAH"
+      - "Zivah"
+      - "Zyxie"
+      - "Écloséra"
+    do_not: Do not invent a brand. If the text is not in this list, it is not a brand.
+  - name: product_name
+    meaning: >
+      Style name. Together with brand, this is the style. Words in the
+      name describe the silhouette and fabric (mini, midi, maxi, halter,
+      satin, denim). There is no silhouette column.
+    values:
+      kind: open_text
+      distinct: 5489
+      listed: false
+      overlaps_brand_exactly: 0
+      overlaps_color_exactly: 0
+    note: >
+      The full name list is not pasted here. None of the names is exactly
+      a brand or a color, so a phrase that is missing from those two lists
+      is a product_name. Call get_values(column=product_name) for the
+      stored spelling. The word Silhouette inside an Aritzia name is a
+      fabric line, not the dress shape.
+  - name: rank_absolute
+    meaning: >
+      Rank number from that retailer's own larger catalog. Smaller is better
+      only inside one channel_id. The min and max on each channel_id above
+      are the real scales. This number is not a position among the 8108 rows.
+    values:
+      kind: number
+      min: 1
+      max: 252247
+      blank_rows: 0
+      listed: false
+    do_not: >
+      Do not compare rank_absolute between retailers. Do not sort the
+      whole table by rank_absolute and call the top row the best product.
+      Use rank_percentile for any cross-retailer comparison.
+  - name: rank_percentile
+    meaning: >
+      Selling strength on a shared 0 to 100 scale. Higher is better.
+      About 100 is a top seller. About 0 is a weak seller. Use this to
+      compare retailers, brands, colors, and silhouettes.
+    values:
+      kind: number
+      min: 0.0089269773254775
+      max: 99.98374150707672
+      blank_rows: 0
+      listed: false
+  - name: rank_label
+    meaning: >
+      Selling-strength band derived from rank_percentile.
+      Use the exact stored text, including the space and capitals.
+    values:
+      - label: "Best Seller"
+        percentile_min: 90.01
+        percentile_max: 99.98
+      - label: "Good Seller"
+        percentile_min: 70.04
+        percentile_max: 89.98
+      - label: "Average Seller"
+        percentile_min: 30.0
+        percentile_max: 69.99
+      - label: "Poor Seller"
+        percentile_min: 0.01
+        percentile_max: 29.99
+  - name: niche_score
+    meaning: >
+      How narrowly the product sells. Higher means more niche.
+      A blank is unknown, not zero.
+    values:
+      kind: number
+      min: -0.4239689924198727
+      max: 1.0
+      blank_rows: 766
+      listed: false
+    do_not: Do not use niche_score as a substitute for rank_percentile.
+  - name: popularity
+    meaning: >
+      Popularity signal. Higher is more popular. This is not rank_percentile.
+    values:
+      kind: number
+      min: -1.0
+      max: 1.0
+      blank_rows: 0
+      listed: false
+  - name: discount
+    meaning: >
+      Percent off the list price. 0 means full price. 30 means about 30
+      percent off. Not a fraction between 0 and 1.
+    values:
+      kind: number
+      min: 0.0
+      max: 99.9
+      blank_rows: 0
+      listed: false
+  - name: rating
+    meaning: >
+      Average star rating. A blank means no rating was collected, not zero.
+      Colors of the same style often share one rating. Do not treat rating
+      as proof that one color outsells another.
+    values:
+      kind: number
+      min: 1.0
+      max: 5.0
+      blank_rows: 4240
+      listed: false
+  - name: rating_count
+    meaning: >
+      How many ratings support the rating value. A blank means unknown, not zero.
+    values:
+      kind: number
+      min: 1
+      max: 439
+      blank_rows: 7933
+      listed: false
+  - name: review_count
+    meaning: >
+      Number of written reviews. A blank means unknown, not zero.
+      Colors of one style often share the same review_count, so it describes
+      the style more than the color.
+    values:
+      kind: number
+      min: 1
+      max: 7876
+      blank_rows: 4238
+      listed: false
+  - name: launch_on
+    meaning: >
+      Date the colorway was first seen, stored as YYYY-MM-DD.
+    values:
+      kind: date
+      min: "2026-07-13"
+      max: "2026-10-10"
+      distinct: 81
+      listed: false
+  - name: last_seen_date
+    meaning: >
+      Date the colorway was last observed, stored as YYYY-MM-DD.
+    values:
+      kind: date
+      min: "2026-07-13"
+      max: "2026-10-10"
+      distinct: 86
+      listed: false
+  - name: pdp_url
+    meaning: >
+      Product page URL. Evidence link only, not a brand or a product name.
+    values:
+      kind: unique_per_row
+      distinct: 8085
+      listed: false
+  - name: feature_image
+    meaning: >
+      Image URL for this colorway. Evidence only, not a metric.
+    values:
+      kind: unique_per_row
+      distinct: 8033
+      listed: false
+  - name: mrp_USD
+    meaning: >
+      List price in US dollars, before discount.
+    values:
+      kind: number
+      min: 0.25
+      max: 7000.0
+      blank_rows: 0
+      listed: false
+  - name: selling_price_USD
+    meaning: >
+      Current selling price in US dollars. Use this when the question says price, unless it says list price or MRP.
+    values:
+      kind: number
+      min: 0.25
+      max: 7000.0
+      blank_rows: 0
+      listed: false
+  - name: mrp_INR
+    meaning: >
+      List price converted to Indian rupees. Same price as mrp_USD, not a separate India listing.
+    values:
+      kind: number
+      min: 23.7328
+      max: 675901.429
+      blank_rows: 0
+      listed: false
+  - name: selling_price_INR
+    meaning: >
+      Selling price converted to Indian rupees. Same price as selling_price_USD. Use USD unless the question asks for rupees.
+    values:
+      kind: number
+      min: 23.7328
+      max: 675901.429
+      blank_rows: 0
+      listed: false
