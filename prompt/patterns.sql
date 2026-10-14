@@ -151,3 +151,34 @@ SELECT
 FROM products
 WHERE brand = 'AE'
   AND product_name = 'AE Corduroy Tie-Front Lace Mini Dress';
+
+-- 7. Top rated dresses, including a rupee price band.
+-- "Top rated" is the rating column, not rank_percentile.
+-- Blank ratings are missing. Do not treat them as zero.
+-- "rs", "rupees", and "INR" filter selling_price_INR. This is in scope.
+SELECT
+    brand,
+    product_name,
+    color,
+    rating,
+    selling_price_INR
+FROM products
+WHERE rating IS NOT NULL
+  AND selling_price_INR BETWEEN 10000 AND 20000
+ORDER BY rating DESC
+LIMIT 20;
+
+-- 8. Top ranked dresses in a rupee price band.
+-- "Top ranked" is rank_percentile. Higher is better.
+-- Do not refuse a price filter. Drop the WHERE line when no price is asked.
+SELECT
+    brand,
+    product_name,
+    color,
+    rank_percentile,
+    rank_label,
+    selling_price_INR
+FROM products
+WHERE selling_price_INR BETWEEN 10000 AND 20000
+ORDER BY rank_percentile DESC
+LIMIT 20;
